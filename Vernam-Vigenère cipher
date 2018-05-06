@@ -1,0 +1,83 @@
+#include <iostream>
+#include<math.h>
+
+using namespace std;
+
+string final_Key(string str, string key)
+{
+    int x;
+
+        if (key.size() != str.size())
+         x=str.size()-key.size();
+
+         for(int i=0;i<x;i++){
+        key.push_back(key[i]);
+    }
+    return key;
+}
+
+string cipherText(string str, string key)
+{
+    key=final_Key(str,key);
+    string ciph_text;
+
+    for (int i = 0; i < str.size(); i++)
+    {
+        int x = (str[i] + key[i]) %26;
+        x += 'A';
+
+        ciph_text.push_back(x);
+    }
+    return ciph_text;
+}
+string one_time_pad(string str,string key){
+    string one_time;
+   if(str.length()==key.length())
+    one_time="YES";
+   else
+    one_time="NO";
+
+    return one_time;
+}
+
+
+int main(){
+
+int Output [1000], START=0;
+int stoint[1000], keyoint[1000];
+
+ string key;
+ cin>>key;
+ string input;
+ cin>>input;
+
+ string key_out=final_Key(input,key);
+ string cipher_out=cipherText(input,key);
+ string one_t=one_time_pad(input,key);
+
+ cout<<"Vigenere: "<<cipher_out<<endl;
+
+
+for(int i=0;i<input.length();i++)
+ {
+  stoint[i]= (int)input[i];
+   //cout <<stoint[i] <<" ";
+}
+for(int i=0;i<input.length();i++)
+ {
+  keyoint[i]= (int)key_out[i];
+   //cout <<keyoint[i]<<" ";
+}
+
+ cout<<"Vernam: ";
+  for(int k=0;k<input.length();k++){
+    {
+     Output[k]=stoint[k]^keyoint[k];
+     printf("%02X",Output[k]);
+    }
+}
+
+cout<<endl;
+cout<<"One-Time Pad: "<<one_t;
+ return 0;
+}
