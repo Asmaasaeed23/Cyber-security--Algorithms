@@ -1,0 +1,136 @@
+#include <iostream>
+#include <math.h>
+#include <vector>
+
+using namespace std;
+
+int char2int(char X){
+return int(X)-65;
+}
+int main()
+{
+    int key_length,k;
+    int m_size;
+    int p=0;
+
+    string input;
+    cin>>key_length;
+    m_size=sqrt((double)(key_length));
+    long long key_matrix[m_size][m_size];
+
+    int rounds;
+
+
+     for(int i=0;i<m_size;i++){
+        for(int j=0;j<m_size;j++){
+        cin>> key_matrix[i][j];
+
+        key_matrix[i][j]=key_matrix[i][j]%26;
+        }
+    }
+    cin>>input;
+    while(input.length()% m_size !=0){
+        input+='X';
+    }
+
+    rounds=input.length()/m_size;
+    int s_input[m_size][rounds];
+    char s_output[m_size][rounds];
+
+
+    while(p != input.length())
+    {
+    for(int k=0;k<rounds;k++){
+        for(int y=0;y<m_size;y++){
+            s_input[y][k]=char2int(input[p]);
+            p++;
+            s_input[y][k]=s_input[y][k]%26;
+        }
+    }
+    }
+
+           int c;
+        for(int i=0 ;i<m_size ;i++)
+        {
+            for(int j =0 ;j<rounds ;j++)
+            {
+                c =0;
+                for(int h=0;h<m_size;h++)
+                {
+                c=c+key_matrix[i][h]*s_input[h][j];
+                }
+                s_output[j][i]=c%26;
+
+            }
+        }
+
+        for(int j=0;j<rounds;j++){
+            for(int i=0;i<m_size;i++){
+                cout<<(char)('A'+s_output[j][i]);
+            }
+        }
+
+
+ return 0;
+}
+
+int main()
+{
+   long long int  M,Y;
+   
+   	cin >> M;     
+	cin >>Y;
+	if (Y<0)
+	{
+		while(Y<0)  Y=Y+M;
+	} 
+	long long A1,A2,A3,B1,B2,B3;
+	A1=1,A2=0,A3=M;
+	B1=0,B2=1,B3=Y;
+	while(1)
+	{
+		if (M==1)
+		{
+		    cout<<"IMPOSSIBLE"<<endl;
+		    break;
+		    
+		}
+		if (B3==0)
+		{ 
+		    cout<<"IMPOSSIBLE"<<endl; 
+		    break;
+		    
+		}
+		else {
+			if (B3==1 ) 
+			{ 
+			    B3= GCD(M,Y);
+			    
+			if(M-Y>0)  cout <<(M-Y)%M<<" ";
+			else   {
+			    long long x= M-Y+M;    
+			    while(x<0) x=x+M;  cout <<x%M<<" ";
+			    
+			}
+			if (B2<0) 
+			cout<<(M+B2)%M;
+			
+			else cout<<B2%M; 
+			break;
+			    
+			}
+			else {
+			    long long Out = A3 /B3 ;
+			    long long temp[3]={A1-Out*B1, A2-Out*B2, A3-Out*B3 };
+			A1=B1,A2=B2,A3=B3;
+			B1=temp[0]; 
+			B2=temp[1];  
+			B3=temp[2];
+			}
+		    
+		}
+	    
+	}
+
+    return 0;
+}
